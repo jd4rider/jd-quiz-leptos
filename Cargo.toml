@@ -1,0 +1,21 @@
+[package]
+name = "tut-leptos-client-side-event"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+leptos = { git = "https://github.com/gbj/leptos" }
+leptos_meta = { git = "https://github.com/leptos-rs/leptos", default-features = false }
+leptos_actix = { git = "https://github.com/leptos-rs/leptos", optional = true }
+leptos_router = { git = "https://github.com/leptos-rs/leptos", default-features = false }
+wasm-bindgen-futures = "0.4"
+graphql_client = "0.11.0"
+gloo-console = "0.2.3"
+serde = { version = "1.0", features = ["derive"] }
+gloo-net = "0.2"
+gloo-utils = "0.1.2"
+getrandom = { version = "0.2", features = ["js"] }
+rand = "0.8.5"
+gloo = "0.8.0"

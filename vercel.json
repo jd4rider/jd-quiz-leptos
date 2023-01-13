@@ -1,0 +1,29 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "server/index.ts",
+        "use": "@now/node"
+      },
+      {
+        "src": "dist/**",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+        {
+            "src": "/",
+            "dest": "/server/index.ts"
+        },
+
+        {
+          "src": "/graphql",
+          "dest": "/server/index.ts"
+        },
+
+        {
+            "src": "/(.*)",
+            "dest": "/dist/$1"
+        }
+    ]
+  }
