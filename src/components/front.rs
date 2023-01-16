@@ -3,7 +3,10 @@ use gloo;
 use gloo_console::log;
 use gloo_net::http::Request;
 use graphql_client::{GraphQLQuery, Response};
-use leptos::{web_sys::HtmlMapElement, *};
+use leptos::{
+    web_sys::{Event, EventTarget, HtmlInputElement, HtmlMapElement, SubmitEvent},
+    *,
+};
 use serde::Deserialize;
 
 #[derive(GraphQLQuery)]
@@ -14,14 +17,54 @@ use serde::Deserialize;
 )]
 pub struct Categories;
 
+#[derive(Clone, PartialEq, Deserialize)]
+pub struct Cat {
+    pub id: usize,
+    pub name: String,
+}
+
 #[component]
 pub fn Front(cx: Scope) -> impl IntoView {
     // Creates a reactive value to update the button
     //let (count, set_count) = create_signal(cx, 0);
     //let on_click = move |_| set_count.update(|count| *count += 1);
     let (category, set_category) = create_signal(cx, vec![]);
+    let (start_quiz, set_start_quiz) = create_signal(cx, false);
+    let (category_picked, set_category_picked) = create_signal(
+        cx,
+        Cat {
+            id: 0,
+            name: "Any Category".to_string(),
+        },
+    );
 
     //let category_value = category.into_iter();
+    let start_handler = move |e: SubmitEvent| {
+        e.prevent_default();
+        set_start_quiz(true);
+    };
+
+    let category_handler = move |e: Event| {
+        let target: EventTarget = e
+            .target()
+            .expect("Event should have a target when dispatched");
+
+        let cat_info = target.unchecked_into::<HtmlInputElement>().value();
+
+        let cat_info = cat_info.split("_");
+
+        let cat_info_vec = cat_info.collect::<Vec<&str>>();
+
+        let cat_id = cat_info_vec[0];
+        let cat_name = cat_info_vec[1];
+
+        let value = Cat {
+            id: cat_id.parse::<usize>().unwrap(),
+            name: cat_name.to_string(),
+        };
+
+        set_category_picked(value);
+    };
 
     {
         create_effect(cx, move |_| {
@@ -41,8 +84,11 @@ pub fn Front(cx: Scope) -> impl IntoView {
             })
         })
     }
-    view! { cx,
-        <form class="w-full max-w-sm" /*onsubmit={start_handler}*/>
+
+    view! {cx,
+        {move || if !start_quiz.get(){view!{cx,
+        <div>
+        <form class="w-full max-w-sm" on:submit=start_handler>
         <div class="md:flex md:items-center mb-6">
           <div class="md:w-1/3">
             <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="num-of-questions">
@@ -60,7 +106,7 @@ pub fn Front(cx: Scope) -> impl IntoView {
             </label>
           </div>
           <div class="md:w-2/3">
-            <select id="categories" class="block w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" /*onchange={category_handler}*/>
+            <select id="categories" class="block w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" on:change=category_handler >
               <option value="0_Any Category" selected={true}>"Any Category"</option>
               <For
                 // a function that returns the items we're iterating over; a signal is fine
@@ -116,5 +162,11 @@ pub fn Front(cx: Scope) -> impl IntoView {
           </div>
         </div>
       </form>
+      </div>
+     }}else{view!{cx,
+         <div class="text-center">
+            <h1 class="text-5xl">"Category: " {move || {category_picked.get().name}}</h1>
+            <h1 class="text-3xl">"Start Quiz Stub"</h1>
+        </div>}}}
     }
 }
