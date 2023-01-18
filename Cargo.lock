@@ -2177,6 +2177,7 @@ dependencies = [
  "gloo-net",
  "gloo-utils",
  "graphql_client",
+ "html-escape",
  "leptos 0.1.0 (git+https://github.com/gbj/leptos)",
  "leptos_actix",
  "leptos_meta",
