@@ -1,3 +1,4 @@
+use crate::components::answers::*;
 use crate::components::front::Cat;
 use crate::components::quizbox::question_w_amountand_cat::QuestionWAmountandCatQuestionsByAmountAndCategoryId;
 use gloo;
@@ -9,6 +10,8 @@ use leptos::{
     web_sys::{Event, EventTarget, HtmlInputElement, HtmlMapElement, MouseEvent, SubmitEvent},
     *,
 };
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 use serde::Deserialize;
 
 #[derive(GraphQLQuery)]
@@ -48,10 +51,15 @@ pub fn Quizbox(
     );
     let (question_count, set_question_count) = create_signal(cx, 0);
     let (current_question, set_current_question) = create_signal(cx, 0);
+    let (answers, set_answers) = create_signal(cx, vec![vec![]]);
+    let disabled = create_rw_signal(cx, false);
+    let score = create_rw_signal(cx, 0);
+    let correct = create_rw_signal(cx, "".to_string());
 
     let next_handler = move |e: MouseEvent| {
         e.prevent_default();
         set_current_question(current_question.get() + 1);
+        disabled.set(false);
     };
 
     fn capitalize_first_letter(s: &str) -> String {
@@ -92,13 +100,26 @@ pub fn Quizbox(
                         .json::<Response<question_w_amountand_cat::ResponseData>>()
                         .await
                         .unwrap();
-                gloo::console::log!(format!("{:?}", response_body));
+                //                gloo::console::log!(format!("{:?}", response_body));
                 let fetched_questions = response_body
                     .data
                     .unwrap()
                     .questions_by_amount_and_category_id;
                 set_questions(fetched_questions.clone());
                 set_question_count(fetched_questions.len());
+                let mut answerss = vec![];
+                let mut answersss = vec![];
+                for j in 0..fetched_questions.len() {
+                    answerss.push(fetched_questions[j].correct_answer.clone());
+                    for i in 0..fetched_questions[j].incorrect_answers.len() {
+                        answerss.push(fetched_questions[j].incorrect_answers[i].clone());
+                    }
+                    answerss.shuffle(&mut thread_rng());
+                    answersss.push(answerss.clone());
+                    answerss.clear();
+                }
+                //              gloo::console::log!(format!("{:?}", answersss));
+                set_answers(answersss);
             })
         })
     }
@@ -124,25 +145,27 @@ pub fn Quizbox(
           <div class="font-bold text-xl mb-2 text-center py-4">
             {move || html_escape::decode_html_entities(string_to_static_str(questions.get()[current_question.get()].question.clone()))}
           </div>
-          /*<Answers
-            incorrect_answers={questions[current_question_value].incorrect_answers.clone()}
-            correct_answer={questions[current_question_value].correct_answer.clone()}
-            disabled={disabled_value}
-            set_disabled={disabled_callback_comp.clone()}
-            set_score={score_callback.clone()}
-            score={score_value}
-            set_correct={correct_callback_comp.clone()}
-            correct={correct_value}
-          />*/
+          <Answers
+            answers=(move || answers.clone())()
+            questions=(move || questions.clone())()
+            current_question=(move || current_question.clone())()
+            disabled=disabled.clone()
+            score=score.clone()
+            correct=correct.clone()
+          />
         </div>
 
-          //if disabled_value {
-        <div class="px-6 pt-4 pb-2 text-center">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click=next_handler>
-               "Next"
-              </button>
-            </div>
-          //}
+        {move || if disabled.get() {
+            view!{cx,
+                <>
+                <div class="px-6 pt-4 pb-2 text-center">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click=next_handler>
+                   "Next"
+                    </button>
+                </div>
+                </>
+            }
+        } else {view!{cx, <></>}}}
 
       </div>
     }
