@@ -70,11 +70,8 @@ pub fn Quizbox(
         Box::leak(s.into_boxed_str())
     }
 
-    //let binding = (questions.get()[current_question.get()].question.clone());
-    //let decoded_question = html_escape::decode_html_entities(&binding);
     let difficulty_value = difficulty.clone();
     {
-        //let question_number = number.clone();
         create_effect(cx, move |_| {
             let number = number.clone();
             let difficulty = difficulty.clone();
@@ -100,7 +97,6 @@ pub fn Quizbox(
                         .json::<Response<question_w_amountand_cat::ResponseData>>()
                         .await
                         .unwrap();
-                //                gloo::console::log!(format!("{:?}", response_body));
                 let fetched_questions = response_body
                     .data
                     .unwrap()
@@ -118,7 +114,6 @@ pub fn Quizbox(
                     answersss.push(answerss.clone());
                     answerss.clear();
                 }
-                //              gloo::console::log!(format!("{:?}", answersss));
                 set_answers(answersss);
             })
         })
@@ -133,15 +128,25 @@ pub fn Quizbox(
             <br />
             {format!("Difficulty: {}", capitalize_first_letter(&difficulty_value))}
           </h3>
-          /*if correct_value.clone() == "correct" {
-            <div class={classes!("bg-green-100", "border-t", "border-b", "border-green-500", "text-green-700", "px-4", "py-3")} role={"alert"}>
-              <p class={classes!("text-sm")}>{ "That answer is Correct!" }</p>
-            </div>
-          } else if correct_value.clone() == "incorrect" {
-            <div class={classes!("bg-red-100", "border-t", "border-b", "border-red-500", "text-red-700", "px-4", "py-3")} role={"alert"}>
-              <p class={classes!("text-sm")}>{ "That answer is Incorrect!" }</p>
-            </div>
-          }*/
+          {move || if correct.get() == "correct" {
+            view!{cx,
+                <>
+                <div class="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role={"alert"}>
+                  <p class="text-sm">"That answer is Correct!"</p>
+                </div>
+                </>
+            }
+          } else if correct.get() == "incorrect" {
+            view!{cx,
+                <>
+                <div class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3" role={"alert"}>
+                    <p class="text-sm"> "That answer is Incorrect!" </p>
+                </div>
+                </>
+            }
+          } else {
+              view!{cx, <></>}
+          }}
           <div class="font-bold text-xl mb-2 text-center py-4">
             {move || html_escape::decode_html_entities(string_to_static_str(questions.get()[current_question.get()].question.clone()))}
           </div>
