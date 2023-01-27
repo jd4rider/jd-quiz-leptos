@@ -87,7 +87,7 @@ pub fn Answers(
     view! {cx,
 
 
-        <For
+            <For
                 // a function that returns the items we're iterating over; a signal is fine
                 each=(move || current_answers)()
                 // a unique key for each item
@@ -97,33 +97,16 @@ pub fn Answers(
                 let answer_for_button = answer_string.answer.clone();
                 view! {
                     cx,
-                    //<button value={answer_string.answer.clone()} disabled={move || disabled.get()} class="bg-blue-500 m-0.5 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click=answer_handler>{move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}</button>
-
-                    <button value={answer_string.answer.clone()} disabled={move || disabled.get()} class={move || set_class(&correct.get(), &answer_string.answer.clone(), &_selected_answer.get(), &questions.get()[current_question.get()].correct_answer.clone(), disabled.get())} on:click=answer_handler >{move || html_escape::decode_html_entities(string_to_static_str(answer_for_button.clone()))}</button>
-                    /*{(move || {if correct.get() == "incorrect" && answer_string.answer.clone() == questions.get()[current_question.get()].correct_answer.clone() {
-                        view!{cx, <button disabled={move || disabled.get()} class="bg-green-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} >
-                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
-                        </button>}
-                    }
-                    else if correct.get() == "incorrect" && answer_string.answer.clone() == selected_answer.get() {
-                        view!{cx, <button disabled={move || disabled.get()} class="bg-red-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} >
-                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
-                        </button>}
-                    }
-                    else if correct.get() == "correct" && answer_string.answer.clone() == selected_answer.get() {
-                        view!{cx, <button disabled={move || disabled.get()} class="bg-green-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} >
-                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
-                        </button>}
-                    }
-                    else if disabled.get() {
-                        view!{cx, <button disabled={move || disabled.get()} class="bg-blue-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} >
-                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
-                        </button>}
-                    } else {
-                        view!{cx, <button disabled={move || disabled.get()} class="bg-blue-500 m-0.5 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} on:click=answer_handler >
-                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
-                        </button>}
-                    }})()}*/
+                    <button value={answer_string.answer.clone()}
+                            disabled={move || disabled.get()}
+                            class={move || set_class(&correct.get(),
+                                                     &answer_string.answer.clone(),
+                                                     &_selected_answer.get(),
+                                                     &questions.get()[current_question.get()].correct_answer.clone(),
+                                                     disabled.get())}
+                            on:click=answer_handler >
+                            {move || html_escape::decode_html_entities(string_to_static_str(answer_for_button.clone()))}
+                    </button>
                   }
                 }
             />
