@@ -1,11 +1,9 @@
 use crate::categories::CategoriesAllCategories;
 use crate::components::quizbox::*;
-use gloo;
-use gloo_console::log;
 use gloo_net::http::Request;
 use graphql_client::{GraphQLQuery, Response};
 use leptos::{
-    web_sys::{Event, EventTarget, HtmlInputElement, HtmlMapElement, SubmitEvent},
+    web_sys::{Event, EventTarget, HtmlInputElement, SubmitEvent},
     *,
 };
 use serde::Deserialize;
@@ -208,7 +206,6 @@ pub fn Front(cx: Scope) -> impl IntoView {
       </div>
      }}else{view!{cx,
          <div class="text-center">
-
             <Quizbox category=category_picked.get() number=number_questions.get() difficulty=difficulty_picked.get() quiz_type=quiz_type_picked.get() />
         </div>}}}
     }

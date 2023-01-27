@@ -1,10 +1,7 @@
 use crate::components::quizbox::question_w_amountand_cat::QuestionWAmountandCatQuestionsByAmountAndCategoryId;
 use gloo;
-use gloo_console::log;
-use html_escape::*;
-use html_escape::*;
 use leptos::{
-    web_sys::{Event, EventTarget, HtmlInputElement, HtmlMapElement, MouseEvent, SubmitEvent},
+    web_sys::{EventTarget, HtmlInputElement, MouseEvent},
     *,
 };
 use uuid::*;
@@ -19,13 +16,14 @@ pub struct Answer {
 pub fn Answers(
     cx: Scope,
     questions: ReadSignal<Vec<QuestionWAmountandCatQuestionsByAmountAndCategoryId>>,
-    current_question: ReadSignal<usize>,
+    current_question: RwSignal<usize>,
     answers: ReadSignal<Vec<Vec<String>>>,
     disabled: RwSignal<bool>,
     score: RwSignal<i32>,
     correct: RwSignal<String>,
 ) -> impl IntoView {
     let (current_answers, set_current_answers) = create_signal(cx, vec![]);
+    let (_selected_answer, set_selected_answer) = create_signal(cx, "".to_string());
 
     fn string_to_static_str(s: String) -> &'static str {
         Box::leak(s.into_boxed_str())
@@ -48,17 +46,12 @@ pub fn Answers(
         {
             score.update(|score: &mut i32| *score += 1);
             correct.set("correct".to_string());
-
-            gloo::console::log!("correct");
         } else {
             correct.set("incorrect".to_string());
-
-            gloo::console::log!("incorrect");
         }
 
-        gloo::console::log!(format!("answer: {}", answer));
-        gloo::console::log!(correct.get());
-        gloo::console::log!(format!("score: {}", score.get()));
+        set_selected_answer(answer.to_string());
+
         disabled.set(true);
     };
 
@@ -77,7 +70,7 @@ pub fn Answers(
     view! {cx,
 
 
-            <For
+        <For
                 // a function that returns the items we're iterating over; a signal is fine
                 each=(move || current_answers)()
                 // a unique key for each item
@@ -87,6 +80,31 @@ pub fn Answers(
                   view! {
                     cx,
                     <button value={answer_string.answer.clone()} disabled={move || disabled.get()} class="bg-blue-500 m-0.5 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click=answer_handler>{move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}</button>
+
+                    /*{(move || {if correct.get() == "incorrect" && answer_string.answer.clone() == questions.get()[current_question.get()].correct_answer.clone() {
+                        view!{cx, <button disabled={move || disabled.get()} class="bg-green-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} >
+                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
+                        </button>}
+                    }
+                    else if correct.get() == "incorrect" && answer_string.answer.clone() == selected_answer.get() {
+                        view!{cx, <button disabled={move || disabled.get()} class="bg-red-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} >
+                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
+                        </button>}
+                    }
+                    else if correct.get() == "correct" && answer_string.answer.clone() == selected_answer.get() {
+                        view!{cx, <button disabled={move || disabled.get()} class="bg-green-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} >
+                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
+                        </button>}
+                    }
+                    else if disabled.get() {
+                        view!{cx, <button disabled={move || disabled.get()} class="bg-blue-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} >
+                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
+                        </button>}
+                    } else {
+                        view!{cx, <button disabled={move || disabled.get()} class="bg-blue-500 m-0.5 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} on:click=answer_handler >
+                            {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
+                        </button>}
+                    }})()}*/
                   }
                 }
             />

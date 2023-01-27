@@ -1,15 +1,9 @@
 use crate::components::answers::*;
 use crate::components::front::Cat;
 use crate::components::quizbox::question_w_amountand_cat::QuestionWAmountandCatQuestionsByAmountAndCategoryId;
-use gloo;
-use gloo_console::log;
 use gloo_net::http::Request;
 use graphql_client::{GraphQLQuery, Response};
-use html_escape::*;
-use leptos::{
-    web_sys::{Event, EventTarget, HtmlInputElement, HtmlMapElement, MouseEvent, SubmitEvent},
-    *,
-};
+use leptos::{web_sys::MouseEvent, *};
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 use serde::Deserialize;
@@ -50,16 +44,27 @@ pub fn Quizbox(
         }],
     );
     let (question_count, set_question_count) = create_signal(cx, 0);
-    let (current_question, set_current_question) = create_signal(cx, 0);
+    let current_question = create_rw_signal(cx, 0);
     let (answers, set_answers) = create_signal(cx, vec![vec![]]);
     let disabled = create_rw_signal(cx, false);
     let score = create_rw_signal(cx, 0);
     let correct = create_rw_signal(cx, "".to_string());
+    let (win, set_win) = create_signal(cx, false);
+    let (next_text, set_next_text) = create_signal(cx, "Next Question".to_string());
+    let (current_category, set_current_category) = create_signal(cx, "Any Category".to_string());
 
     let next_handler = move |e: MouseEvent| {
         e.prevent_default();
-        set_current_question(current_question.get() + 1);
+        if current_question.get() < question_count.get() - 1 {
+            current_question.update(|current_question: &mut usize| *current_question += 1);
+        } else {
+            set_win(true);
+        }
+        if current_question.get() == question_count.get() - 1 {
+            set_next_text("Finish Quiz".to_string());
+        }
         disabled.set(false);
+        correct.set("".to_string());
     };
 
     fn capitalize_first_letter(s: &str) -> String {
@@ -76,7 +81,7 @@ pub fn Quizbox(
             let number = number.clone();
             let difficulty = difficulty.clone();
             let quiz_type = quiz_type.clone();
-
+            let category_name = category.name.clone();
             wasm_bindgen_futures::spawn_local(async move {
                 let cat_id_int: i64 = category.id.try_into().unwrap();
                 let question_number_int: i64 = number.to_owned().parse().unwrap();
@@ -115,16 +120,18 @@ pub fn Quizbox(
                     answerss.clear();
                 }
                 set_answers(answersss);
+                set_current_category(category_name.to_string());
             })
         })
     }
     view! {cx,
+    {move || if !win.get() {view!{cx,
     <div class="bg-white max-w-lg rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
         <h3 class="bg-gray-100 text-center py-3">
             {move || format!("Question #{} of {}", current_question.get() + 1, question_count.get())}
             <br />
-            {move || format!("Category: {}", category.name.clone())}
+            {move || format!("Category - {}", current_category.get())}
             <br />
             {format!("Difficulty: {}", capitalize_first_letter(&difficulty_value))}
           </h3>
@@ -133,6 +140,8 @@ pub fn Quizbox(
                 <>
                 <div class="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role={"alert"}>
                   <p class="text-sm">"That answer is Correct!"</p>
+                  <p class="text-sm"> "The answer you chose is: " </p>
+                  <p class="text-base font-bold italic">"'"{move || html_escape::decode_html_entities(string_to_static_str(questions.get()[current_question.get()].correct_answer.clone()))}"'"</p>
                 </div>
                 </>
             }
@@ -141,6 +150,8 @@ pub fn Quizbox(
                 <>
                 <div class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3" role={"alert"}>
                     <p class="text-sm"> "That answer is Incorrect!" </p>
+                    <p class="text-sm"> "The correct answer is: " </p>
+                    <p class="text-base font-bold italic">"'"{move || html_escape::decode_html_entities(string_to_static_str(questions.get()[current_question.get()].correct_answer.clone()))}"'"</p>
                 </div>
                 </>
             }
@@ -165,13 +176,26 @@ pub fn Quizbox(
                 <>
                 <div class="px-6 pt-4 pb-2 text-center">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click=next_handler>
-                   "Next"
+                    {move || next_text.get()}
                     </button>
                 </div>
                 </>
             }
         } else {view!{cx, <></>}}}
 
-      </div>
+        </div>}}
+        else {view!{cx,
+            <div class="bg-white max-w-lg rounded overflow-hidden shadow-lg">
+                <div class="px-6 py-4">
+                <h3 class="bg-gray-100 text-center py-3 px-8">
+                "Quiz Complete!"
+                </h3>
+                <div class="font-bold text-xl mb-2 text-center">
+                  {move || format!("Score: {} out of {} correct!", score.get(), question_count.get())}
+                  <h1 class="text-5xl">{move || format!("{}%", ((score.get() as f32 / question_count.get() as f32) * 100.0).round())}</h1>
+                </div>
+              </div>
+            </div>}
+        }}
     }
 }

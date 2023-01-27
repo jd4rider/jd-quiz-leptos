@@ -1062,6 +1062,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fad582f4b9e86b6caa621cabeb0963332d92eea04729ab12892c2533951e6440"
 
 [[package]]
+name = "jd-quiz-leptos"
+version = "0.1.0"
+dependencies = [
+ "getrandom",
+ "gloo",
+ "gloo-console",
+ "gloo-net",
+ "gloo-utils",
+ "graphql_client",
+ "html-escape",
+ "leptos 0.1.0 (git+https://github.com/gbj/leptos)",
+ "leptos_actix",
+ "leptos_meta",
+ "leptos_router",
+ "rand",
+ "serde",
+ "uuid",
+ "wasm-bindgen-futures",
+]
+
+[[package]]
 name = "jobserver"
 version = "0.1.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2165,27 +2186,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "24eb03ba0eab1fd845050058ce5e616558e8f8d8fca633e6b163fe25c797213a"
 dependencies = [
  "once_cell",
-]
-
-[[package]]
-name = "tut-leptos-client-side-event"
-version = "0.1.0"
-dependencies = [
- "getrandom",
- "gloo",
- "gloo-console",
- "gloo-net",
- "gloo-utils",
- "graphql_client",
- "html-escape",
- "leptos 0.1.0 (git+https://github.com/gbj/leptos)",
- "leptos_actix",
- "leptos_meta",
- "leptos_router",
- "rand",
- "serde",
- "uuid",
- "wasm-bindgen-futures",
 ]
 
 [[package]]
