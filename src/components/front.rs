@@ -42,7 +42,6 @@ pub fn Front(cx: Scope) -> impl IntoView {
 
     let start_handler = move |e: SubmitEvent| {
         e.prevent_default();
-        leptos::log!("Start the Quiz");
         set_start_quiz(true);
     };
 

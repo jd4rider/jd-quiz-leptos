@@ -1,5 +1,4 @@
 use crate::components::quizbox::question_w_amountand_cat::QuestionWAmountandCatQuestionsByAmountAndCategoryId;
-use gloo;
 use leptos::{
     web_sys::{EventTarget, HtmlInputElement, MouseEvent},
     *,
@@ -30,8 +29,6 @@ pub fn Answers(
     }
 
     let answer_handler = move |event: MouseEvent| {
-        gloo::console::log!("Hello answers");
-
         let target: EventTarget = event
             .target()
             .expect("Event should have a target when dispatched");
@@ -55,6 +52,26 @@ pub fn Answers(
         disabled.set(true);
     };
 
+    fn set_class(
+        correct: &String,
+        answer: &String,
+        selected_answer: &String,
+        current_correct_answer: &String,
+        disabled: bool,
+    ) -> &'static str {
+        if correct == "incorrect" && answer == current_correct_answer {
+            "bg-green-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded cursor-not-allowed"
+        } else if correct == "incorrect" && answer == selected_answer {
+            "bg-red-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded cursor-not-allowed"
+        } else if correct == "correct" && answer == selected_answer {
+            "bg-green-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded cursor-not-allowed"
+        } else if disabled {
+            "bg-blue-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded cursor-not-allowed"
+        } else {
+            "bg-blue-500 m-0.5 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        }
+    }
+
     create_effect(cx, move |_| {
         let mut answerss = vec![];
 
@@ -77,10 +94,12 @@ pub fn Answers(
                 key=|i| i.id
                 // renders each item to a view
                 view=move |answer_string: Answer| {
-                  view! {
+                let answer_for_button = answer_string.answer.clone();
+                view! {
                     cx,
-                    <button value={answer_string.answer.clone()} disabled={move || disabled.get()} class="bg-blue-500 m-0.5 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click=answer_handler>{move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}</button>
+                    //<button value={answer_string.answer.clone()} disabled={move || disabled.get()} class="bg-blue-500 m-0.5 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click=answer_handler>{move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}</button>
 
+                    <button value={answer_string.answer.clone()} disabled={move || disabled.get()} class={move || set_class(&correct.get(), &answer_string.answer.clone(), &_selected_answer.get(), &questions.get()[current_question.get()].correct_answer.clone(), disabled.get())} on:click=answer_handler >{move || html_escape::decode_html_entities(string_to_static_str(answer_for_button.clone()))}</button>
                     /*{(move || {if correct.get() == "incorrect" && answer_string.answer.clone() == questions.get()[current_question.get()].correct_answer.clone() {
                         view!{cx, <button disabled={move || disabled.get()} class="bg-green-500 m-0.5 w-full text-white font-bold py-2 px-4 rounded" value={answer_string.answer.clone()} >
                             {move || html_escape::decode_html_entities(string_to_static_str(answer_string.answer.clone()))}
