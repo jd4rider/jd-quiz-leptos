@@ -52,6 +52,7 @@ pub fn Quizbox(
     let (win, set_win) = create_signal(cx, false);
     let (next_text, set_next_text) = create_signal(cx, "Next Question".to_string());
     let (current_category, set_current_category) = create_signal(cx, "Any Category".to_string());
+    let loading = create_rw_signal(cx, true);
 
     let next_handler = move |e: MouseEvent| {
         e.prevent_default();
@@ -168,6 +169,7 @@ pub fn Quizbox(
             disabled=disabled.clone()
             score=score.clone()
             correct=correct.clone()
+            loading=loading.clone()
           />
         </div>
 
@@ -182,7 +184,10 @@ pub fn Quizbox(
                 </>
             }
         } else {view!{cx, <></>}}}
-
+        {move || if loading.get() {
+              view!{cx, <><div class="lds-ring"><div></div><div></div><div></div><div></div></div></>}
+            } else {view!{cx, <></>}}
+        }
         </div>}}
         else {view!{cx,
             <div class="bg-white max-w-lg rounded overflow-hidden shadow-lg">

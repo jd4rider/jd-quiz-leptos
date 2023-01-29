@@ -1,4 +1,5 @@
 use crate::components::quizbox::question_w_amountand_cat::QuestionWAmountandCatQuestionsByAmountAndCategoryId;
+use gloo_timers::callback::Timeout;
 use leptos::{
     web_sys::{EventTarget, HtmlInputElement, MouseEvent},
     *,
@@ -20,6 +21,7 @@ pub fn Answers(
     disabled: RwSignal<bool>,
     score: RwSignal<i32>,
     correct: RwSignal<String>,
+    loading: RwSignal<bool>,
 ) -> impl IntoView {
     let (current_answers, set_current_answers) = create_signal(cx, vec![]);
     let (_selected_answer, set_selected_answer) = create_signal(cx, "".to_string());
@@ -80,6 +82,13 @@ pub fn Answers(
                 id: Uuid::new_v4(),
                 answer: answers.get()[current_question.get()][i].clone(),
             });
+        }
+        if answerss.len() > 0 {
+//            Timeout::new(5, move || {
+                // Do stuff...
+                loading.set(false);
+  //          })
+    //        .forget();
         }
         set_current_answers(answerss);
     });

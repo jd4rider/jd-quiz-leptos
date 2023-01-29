@@ -2,18 +2,53 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JD Quiz</title>
-    <script type="module">import init from '/jd-quiz-leptos-f39d97b9bbf2c1f.js';init('/jd-quiz-leptos-f39d97b9bbf2c1f_bg.wasm');</script>
+    <script type="module">import init from '/jd-quiz-leptos-6fde28e5bc2d9235.js';init('/jd-quiz-leptos-6fde28e5bc2d9235_bg.wasm');</script>
      
     <link rel="icon" href="./public/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/tailwind-6549af7d652dd1c9.css">
+    <link rel="stylesheet" href="/tailwind-d857fa0f2843b070.css">
     <style>
-      span {
-        pointer-events: none; 
-      }
+        span {
+          pointer-events: none; 
+        }
+        .lds-ring {
+          display: inline-block;
+          position: relative;
+          width: 80px;
+          height: 80px;
+        }
+        .lds-ring div {
+          box-sizing: border-box;
+          display: block;
+          position: absolute;
+          width: 64px;
+          height: 64px;
+          margin: 8px;
+          border: 8px solid #3A82F6;
+          border-radius: 50%;
+          animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+          border-color: #C2C2C2 transparent transparent transparent;
+        }
+        .lds-ring div:nth-child(1) {
+          animation-delay: -0.45s;
+        }
+        .lds-ring div:nth-child(2) {
+          animation-delay: -0.3s;
+        }
+        .lds-ring div:nth-child(3) {
+          animation-delay: -0.15s;
+        }
+        @keyframes lds-ring {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
     </style>
 
-<link rel="preload" href="/jd-quiz-leptos-f39d97b9bbf2c1f_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-<link rel="modulepreload" href="/jd-quiz-leptos-f39d97b9bbf2c1f.js"></head>  
+<link rel="preload" href="/jd-quiz-leptos-6fde28e5bc2d9235_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/jd-quiz-leptos-6fde28e5bc2d9235.js"></head>  
 <body>  
   
 </body></html>
