@@ -1084,7 +1084,7 @@ dependencies = [
  "gloo-utils",
  "graphql_client",
  "html-escape",
- "leptos 0.1.0 (git+https://github.com/gbj/leptos)",
+ "leptos",
  "leptos_actix",
  "leptos_meta",
  "leptos_router",
@@ -1138,29 +1138,14 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 [[package]]
 name = "leptos"
 version = "0.1.0"
-source = "git+https://github.com/gbj/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
-dependencies = [
- "cfg-if",
- "leptos_config 0.1.0 (git+https://github.com/gbj/leptos)",
- "leptos_dom 0.1.0 (git+https://github.com/gbj/leptos)",
- "leptos_macro 0.1.0 (git+https://github.com/gbj/leptos)",
- "leptos_reactive 0.1.0 (git+https://github.com/gbj/leptos)",
- "leptos_server 0.1.0 (git+https://github.com/gbj/leptos)",
- "tracing",
- "typed-builder",
-]
-
-[[package]]
-name = "leptos"
-version = "0.1.0"
 source = "git+https://github.com/leptos-rs/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
 dependencies = [
  "cfg-if",
- "leptos_config 0.1.0 (git+https://github.com/leptos-rs/leptos)",
- "leptos_dom 0.1.0 (git+https://github.com/leptos-rs/leptos)",
- "leptos_macro 0.1.0 (git+https://github.com/leptos-rs/leptos)",
- "leptos_reactive 0.1.0 (git+https://github.com/leptos-rs/leptos)",
- "leptos_server 0.1.0 (git+https://github.com/leptos-rs/leptos)",
+ "leptos_config",
+ "leptos_dom",
+ "leptos_macro",
+ "leptos_reactive",
+ "leptos_server",
  "tracing",
  "typed-builder",
 ]
@@ -1172,7 +1157,7 @@ source = "git+https://github.com/leptos-rs/leptos#08ec473304d65cbea58fc815166286
 dependencies = [
  "actix-web",
  "futures 0.3.25",
- "leptos 0.1.0 (git+https://github.com/leptos-rs/leptos)",
+ "leptos",
  "leptos_meta",
  "leptos_router",
  "regex",
@@ -1182,19 +1167,6 @@ dependencies = [
 [[package]]
 name = "leptos_config"
 version = "0.1.0"
-source = "git+https://github.com/gbj/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
-dependencies = [
- "config",
- "fs",
- "regex",
- "serde",
- "thiserror",
- "typed-builder",
-]
-
-[[package]]
-name = "leptos_config"
-version = "0.1.0"
 source = "git+https://github.com/leptos-rs/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
 dependencies = [
  "config",
@@ -1203,33 +1175,6 @@ dependencies = [
  "serde",
  "thiserror",
  "typed-builder",
-]
-
-[[package]]
-name = "leptos_dom"
-version = "0.1.0"
-source = "git+https://github.com/gbj/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
-dependencies = [
- "cfg-if",
- "drain_filter_polyfill",
- "educe",
- "futures 0.3.25",
- "gloo",
- "html-escape",
- "indexmap",
- "itertools",
- "js-sys",
- "leptos_reactive 0.1.0 (git+https://github.com/gbj/leptos)",
- "once_cell",
- "pad-adapter",
- "paste",
- "rustc-hash",
- "serde_json",
- "smallvec",
- "tracing",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
 ]
 
 [[package]]
@@ -1246,7 +1191,7 @@ dependencies = [
  "indexmap",
  "itertools",
  "js-sys",
- "leptos_reactive 0.1.0 (git+https://github.com/leptos-rs/leptos)",
+ "leptos_reactive",
  "once_cell",
  "pad-adapter",
  "paste",
@@ -1262,37 +1207,15 @@ dependencies = [
 [[package]]
 name = "leptos_macro"
 version = "0.1.0"
-source = "git+https://github.com/gbj/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
-dependencies = [
- "cfg-if",
- "doc-comment",
- "itertools",
- "lazy_static",
- "leptos_dom 0.1.0 (git+https://github.com/gbj/leptos)",
- "leptos_reactive 0.1.0 (git+https://github.com/gbj/leptos)",
- "leptos_server 0.1.0 (git+https://github.com/gbj/leptos)",
- "pad-adapter",
- "prettyplease",
- "proc-macro-error",
- "proc-macro2",
- "quote",
- "syn",
- "syn-rsx",
- "uuid",
-]
-
-[[package]]
-name = "leptos_macro"
-version = "0.1.0"
 source = "git+https://github.com/leptos-rs/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
 dependencies = [
  "cfg-if",
  "doc-comment",
  "itertools",
  "lazy_static",
- "leptos_dom 0.1.0 (git+https://github.com/leptos-rs/leptos)",
- "leptos_reactive 0.1.0 (git+https://github.com/leptos-rs/leptos)",
- "leptos_server 0.1.0 (git+https://github.com/leptos-rs/leptos)",
+ "leptos_dom",
+ "leptos_reactive",
+ "leptos_server",
  "pad-adapter",
  "prettyplease",
  "proc-macro-error",
@@ -1309,30 +1232,9 @@ version = "0.1.0"
 source = "git+https://github.com/leptos-rs/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
 dependencies = [
  "cfg-if",
- "leptos 0.1.0 (git+https://github.com/leptos-rs/leptos)",
+ "leptos",
  "tracing",
  "typed-builder",
- "web-sys",
-]
-
-[[package]]
-name = "leptos_reactive"
-version = "0.1.0"
-source = "git+https://github.com/gbj/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
-dependencies = [
- "base64",
- "cfg-if",
- "futures 0.3.25",
- "js-sys",
- "log",
- "serde",
- "serde-wasm-bindgen 0.4.5",
- "serde_json",
- "slotmap",
- "thiserror",
- "tracing",
- "wasm-bindgen",
- "wasm-bindgen-futures",
  "web-sys",
 ]
 
@@ -1370,7 +1272,7 @@ dependencies = [
  "itertools",
  "js-sys",
  "lazy_static",
- "leptos 0.1.0 (git+https://github.com/leptos-rs/leptos)",
+ "leptos",
  "linear-map",
  "log",
  "regex",
@@ -1387,37 +1289,14 @@ dependencies = [
 [[package]]
 name = "leptos_server"
 version = "0.1.0"
-source = "git+https://github.com/gbj/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
-dependencies = [
- "ciborium",
- "form_urlencoded",
- "gloo-net",
- "lazy_static",
- "leptos_dom 0.1.0 (git+https://github.com/gbj/leptos)",
- "leptos_reactive 0.1.0 (git+https://github.com/gbj/leptos)",
- "linear-map",
- "log",
- "proc-macro2",
- "quote",
- "rmp-serde",
- "serde",
- "serde_json",
- "serde_urlencoded",
- "syn",
- "thiserror",
-]
-
-[[package]]
-name = "leptos_server"
-version = "0.1.0"
 source = "git+https://github.com/leptos-rs/leptos#08ec473304d65cbea58fc8151662868fe4dc318c"
 dependencies = [
  "ciborium",
  "form_urlencoded",
  "gloo-net",
  "lazy_static",
- "leptos_dom 0.1.0 (git+https://github.com/leptos-rs/leptos)",
- "leptos_reactive 0.1.0 (git+https://github.com/leptos-rs/leptos)",
+ "leptos_dom",
+ "leptos_reactive",
  "linear-map",
  "log",
  "proc-macro2",
