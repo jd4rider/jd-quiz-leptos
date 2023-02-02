@@ -15,7 +15,14 @@
             "src": "/",
             "dest": "/server/index.ts"
         },
-
+        {
+            "src": "/quiz",
+            "dest": "/server/index.ts"
+        },
+        {
+            "src": "/quiz",
+            "dest" : "/server/index.ts"
+        },
         {
           "src": "/graphql",
           "dest": "/server/index.ts"
