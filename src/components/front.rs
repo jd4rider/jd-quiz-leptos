@@ -126,6 +126,7 @@ pub fn Front(cx: Scope) -> impl IntoView {
     }
 
     view! {cx,
+        <main class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-green-400 to-blue-400">
         {move || if !start_quiz.get(){view!{cx,
         <div>
         <form class="w-full max-w-sm" on:submit=start_handler>
@@ -207,5 +208,6 @@ pub fn Front(cx: Scope) -> impl IntoView {
          <div class="text-center">
             <Quizbox category=category_picked.get() number=number_questions.get() difficulty=difficulty_picked.get() quiz_type=quiz_type_picked.get() />
         </div>}}}
+        </main>
     }
 }

@@ -1,5 +1,6 @@
 use leptos::*;
 mod components;
+mod pages;
 mod partials;
 
 use crate::partials::navbar::*;

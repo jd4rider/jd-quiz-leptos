@@ -5,6 +5,8 @@ use crate::partials::navbar::*;
 
 use crate::components::front::*;
 
+use crate::pages::home::*;
+
 #[component]
 pub fn Routing(cx: Scope) -> impl IntoView {
     view! {cx,
@@ -21,12 +23,15 @@ pub fn Routing(cx: Scope) -> impl IntoView {
                   <A href="settings">"Settings"</A>
                 </nav>*/
                 <Navbar />
-                <main class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-green-400 to-blue-400">
                   // <Routes/> both defines our routes and shows them on the page
                   <Routes>
                     // our root route: the contact list is always shown
                     <Route
-                      path="demo"
+                      path=""
+                      view=move |cx| view! {cx, <Home/> }
+                    />
+                    <Route
+                      path="quiz"
                       view=move |cx| view! { cx,  <Front/> }
                     />
                       // users like /gbj or /bob
@@ -46,7 +51,6 @@ pub fn Routing(cx: Scope) -> impl IntoView {
                       view=move |cx| view! { cx,  <About/> }
                     />*/
                   </Routes>
-                </main>
               </Router>
     //        </div>
         }
