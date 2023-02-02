@@ -72,13 +72,15 @@ pub fn Navbar(cx: Scope) -> impl IntoView {
                       <div class="flex space-x-4">
                         //<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         //<span class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">
-                        <span class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                            <A href="">"Home"</A>
-                        </span>
+                        //<A href="">
+                        <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            "Home"
+                        </a>
+                        //</A>
 
-                        <span class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                            <A href="quiz">"Quiz"</A>
-                        </span>
+                        <a href="/quiz" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            "Quiz"
+                        </a>
 
     //                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">"Projects"</a>
 
@@ -135,13 +137,13 @@ pub fn Navbar(cx: Scope) -> impl IntoView {
                 <div class={move || mobile_menu_class.get()}>
                   //<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                     //<span class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">
-                    <span class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                        <A href="">"Home"</A>
-                    </span>
+                    <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                        "Home"
+                    </a>
 
-                    <span class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                        <A href="quiz">"Quiz"</A>
-                    </span>
+                    <a href="/quiz" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                        "Quiz"
+                    </a>
 
       //            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">"Projects"</a>
 
