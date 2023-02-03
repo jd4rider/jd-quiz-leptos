@@ -9,6 +9,18 @@ use crate::pages::home::*;
 
 #[component]
 pub fn Routing(cx: Scope) -> impl IntoView {
+    let active_class =
+        "bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium".to_string();
+    let inactive_class =
+        "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            .to_string();
+    let active_mobile_class =
+        "bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium".to_string();
+    let inactive_mobile_class = "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium".to_string();
+    let home_class = create_rw_signal(cx, inactive_class.clone());
+    let home_mobile_class = create_rw_signal(cx, inactive_mobile_class.clone());
+    let quiz_class = create_rw_signal(cx, inactive_class.clone());
+    let quiz_mobile_class = create_rw_signal(cx, inactive_mobile_class.clone());
     view! {cx,
     //        <div id="root">
               // we wrap the whole app in a <Router/> to allow client-side navigation
@@ -22,13 +34,13 @@ pub fn Routing(cx: Scope) -> impl IntoView {
                   <A href="about">"About"</A>
                   <A href="settings">"Settings"</A>
                 </nav>*/
-                <Navbar />
+                <Navbar home_class=home_class.clone() home_mobile_class=home_mobile_class.clone() quiz_class=quiz_class.clone() quiz_mobile_class=quiz_mobile_class.clone()/>
                   // <Routes/> both defines our routes and shows them on the page
                   <Routes>
                     // our root route: the contact list is always shown
                     <Route
                       path=""
-                      view=move |cx| view! {cx, <Home/> }
+                      view=move |cx| view! {cx, <Home home_class=home_class.clone() home_mobile_class=home_mobile_class.clone() quiz_class=quiz_class.clone() quiz_mobile_class=quiz_mobile_class.clone()/> }
                     />
                     <Route
                       path="quiz"

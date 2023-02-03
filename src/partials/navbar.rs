@@ -1,15 +1,32 @@
-use leptos::{web_sys::MouseEvent, *};
+use leptos::{
+    web_sys::{window, MouseEvent},
+    *,
+};
 use leptos_router::*;
 
 #[component]
-pub fn Navbar(cx: Scope) -> impl IntoView {
+pub fn Navbar(
+    cx: Scope,
+    home_class: RwSignal<String>,
+    home_mobile_class: RwSignal<String>,
+    quiz_class: RwSignal<String>,
+    quiz_mobile_class: RwSignal<String>,
+) -> impl IntoView {
+    let active_class =
+        "bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium".to_string();
+    let inactive_class =
+        "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            .to_string();
+    let active_mobile_class =
+        "bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium".to_string();
+    let inactive_mobile_class = "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium".to_string();
     let (profile_class, set_profile_class) = create_signal(cx, "hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none".to_string());
     let (mobile_menu_class, set_mobile_menu_class) =
         create_signal(cx, "hidden space-y-1 px-2 pt-2 pb-3".to_string());
     let (hamburger_class, set_hamburger_class) = create_signal(cx, "block h-6 w-6".to_string());
     let (close_class, set_close_class) = create_signal(cx, "hidden h-6 w-6".to_string());
 
-    let open_profile = move |_: MouseEvent| {
+    let _open_profile = move |_: MouseEvent| {
         if profile_class.get() == "hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" {
             set_profile_class("absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none".to_string());
         } else {
@@ -28,6 +45,36 @@ pub fn Navbar(cx: Scope) -> impl IntoView {
             set_close_class("hidden h-6 w-6".to_string());
         }
     };
+
+    let navbar_change_class = move || {
+        let current_url = window().unwrap().location().pathname().unwrap();
+
+        if current_url == "/" {
+            home_class.set(active_class.clone());
+            home_mobile_class.set(active_mobile_class.clone());
+            quiz_class.set(inactive_class.clone());
+            quiz_mobile_class.set(inactive_mobile_class.clone());
+        } else {
+            quiz_class.set(active_class.clone());
+            quiz_mobile_class.set(active_mobile_class.clone());
+            home_class.set(inactive_class.clone());
+            home_mobile_class.set(inactive_mobile_class.clone());
+        }
+    };
+
+    let navbar_change_class_effect = navbar_change_class.clone();
+
+    let handle_active = move |e: MouseEvent| {
+        e.prevent_default();
+        navbar_change_class();
+    };
+
+    create_effect(cx, move |_| {
+        let current_url = window().unwrap().location().pathname().unwrap();
+
+        navbar_change_class_effect();
+        let location = use_location(cx);
+    });
 
     view! {cx,
             <nav class="bg-gray-800">
@@ -73,12 +120,13 @@ pub fn Navbar(cx: Scope) -> impl IntoView {
                         //<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         //<span class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">
                         //<A href="">
-                        <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        //<a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        <a href="/" class={move || home_class.get()} on:click=handle_active.clone()>
                             "Home"
                         </a>
                         //</A>
 
-                        <a href="/quiz" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        <a href="/quiz" class={move || quiz_class.get()} on:click=handle_active.clone()>
                             "Quiz"
                         </a>
 
@@ -137,11 +185,11 @@ pub fn Navbar(cx: Scope) -> impl IntoView {
                 <div class={move || mobile_menu_class.get()}>
                   //<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                     //<span class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">
-                    <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <a href="/" class={move || home_mobile_class.get()} on:click=handle_active.clone()>
                         "Home"
                     </a>
 
-                    <a href="/quiz" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <a href="/quiz" class={move || quiz_mobile_class.get()} on:click=handle_active.clone()>
                         "Quiz"
                     </a>
 
