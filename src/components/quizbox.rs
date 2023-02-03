@@ -32,6 +32,7 @@ pub fn Quizbox(
     number: String,
     difficulty: String,
     quiz_type: String,
+    start_quiz: RwSignal<bool>,
 ) -> impl IntoView {
     let (questions, set_questions) = create_signal(
         cx,
@@ -66,6 +67,11 @@ pub fn Quizbox(
         }
         disabled.set(false);
         correct.set("".to_string());
+    };
+
+    let again_handler = move |e: MouseEvent| {
+        e.prevent_default();
+        start_quiz.set(false);
     };
 
     fn capitalize_first_letter(s: &str) -> String {
@@ -198,6 +204,11 @@ pub fn Quizbox(
                 <div class="font-bold text-xl mb-2 text-center">
                   {move || format!("Score: {} out of {} correct!", score.get(), question_count.get())}
                   <h1 class="text-5xl">{move || format!("{}%", ((score.get() as f32 / question_count.get() as f32) * 100.0).round())}</h1>
+                  <div class="px-6 pt-4 pb-2 text-center">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click=again_handler>
+                    "Go Again..."
+                  </button>
+                </div>
                 </div>
               </div>
             </div>}

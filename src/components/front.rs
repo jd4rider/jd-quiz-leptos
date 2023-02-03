@@ -28,7 +28,7 @@ pub fn Front(cx: Scope) -> impl IntoView {
     //let (count, set_count) = create_signal(cx, 0);
     //let on_click = move |_| set_count.update(|count| *count += 1);
     let (category, set_category) = create_signal(cx, vec![]);
-    let (start_quiz, set_start_quiz) = create_signal(cx, false);
+    let start_quiz = create_rw_signal(cx, false);
     let (category_picked, set_category_picked) = create_signal(
         cx,
         Cat {
@@ -39,10 +39,11 @@ pub fn Front(cx: Scope) -> impl IntoView {
     let (difficulty_picked, set_difficulty_picked) = create_signal(cx, "any".to_string());
     let (quiz_type_picked, set_quiz_type_picked) = create_signal(cx, "any".to_string());
     let (number_questions, set_number_questions) = create_signal(cx, "10".to_string());
+    let (loading, set_loading) = create_signal(cx, true);
 
     let start_handler = move |e: SubmitEvent| {
         e.prevent_default();
-        set_start_quiz(true);
+        start_quiz.set(true);
     };
 
     let category_handler = move |e: Event| {
@@ -121,6 +122,7 @@ pub fn Front(cx: Scope) -> impl IntoView {
                     .unwrap();
                 //gloo::console::log!(format!("{:?}", response_body));
                 set_category(response_body.data.unwrap().all_categories);
+                set_loading(false);
             })
         })
     }
@@ -129,6 +131,9 @@ pub fn Front(cx: Scope) -> impl IntoView {
         <main class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-green-400 to-blue-400">
         {move || if !start_quiz.get(){view!{cx,
         <div>
+        {move || if loading.get() {view!{cx, <><div class="lds-ring"><div></div><div></div><div></div><div></div></div></>}}
+        else {view!{cx,
+        <>
         <form class="w-full max-w-sm" on:submit=start_handler>
         <div class="md:flex md:items-center mb-6">
           <div class="md:w-1/3">
@@ -202,11 +207,11 @@ pub fn Front(cx: Scope) -> impl IntoView {
             </button>
           </div>
         </div>
-      </form>
+      </form></>}}}
       </div>
      }}else{view!{cx,
          <div class="text-center">
-            <Quizbox category=category_picked.get() number=number_questions.get() difficulty=difficulty_picked.get() quiz_type=quiz_type_picked.get() />
+            <Quizbox category=category_picked.get() number=number_questions.get() difficulty=difficulty_picked.get() quiz_type=quiz_type_picked.get() start_quiz=start_quiz.clone() />
         </div>}}}
         </main>
     }

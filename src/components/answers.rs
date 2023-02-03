@@ -1,5 +1,5 @@
 use crate::components::quizbox::question_w_amountand_cat::QuestionWAmountandCatQuestionsByAmountAndCategoryId;
-use gloo_timers::callback::Timeout;
+//use gloo_timers::callback::Timeout;
 use leptos::{
     web_sys::{EventTarget, HtmlInputElement, MouseEvent},
     *,
@@ -84,11 +84,11 @@ pub fn Answers(
             });
         }
         if answerss.len() > 0 {
-//            Timeout::new(5, move || {
-                // Do stuff...
-                loading.set(false);
-  //          })
-    //        .forget();
+            //            Timeout::new(5, move || {
+            // Do stuff...
+            loading.set(false);
+            //          })
+            //        .forget();
         }
         set_current_answers(answerss);
     });
