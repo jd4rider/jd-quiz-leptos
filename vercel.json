@@ -12,16 +12,16 @@
     ],
     "routes": [
         {
-            "src": "/(.*)",
-            "dest": "/server/index.ts"
-        },
-        {
-            "src": "/quiz",
+            "src": "/",
             "dest": "/server/index.ts"
         },
         {
           "src": "/api/(.*)",
           "dest": "/server/index.ts"
+        },
+        {
+          "src": "/(.*)",
+          "dest": "/dist/$1"
         }
     ]
   }
