@@ -111,15 +111,16 @@ pub fn Front(cx: Scope) -> impl IntoView {
         create_effect(cx, move |_| {
             wasm_bindgen_futures::spawn_local(async move {
                 let request_body = Categories::build_query(categories::Variables {});
-                let response_body: Response<categories::ResponseData> = Request::post("/graphql")
-                    .json(&request_body)
-                    .unwrap()
-                    .send()
-                    .await
-                    .unwrap()
-                    .json::<Response<categories::ResponseData>>()
-                    .await
-                    .unwrap();
+                let response_body: Response<categories::ResponseData> =
+                    Request::post("/api/graphql")
+                        .json(&request_body)
+                        .unwrap()
+                        .send()
+                        .await
+                        .unwrap()
+                        .json::<Response<categories::ResponseData>>()
+                        .await
+                        .unwrap();
                 //gloo::console::log!(format!("{:?}", response_body));
                 set_category(response_body.data.unwrap().all_categories);
                 set_loading(false);

@@ -100,7 +100,7 @@ pub fn Quizbox(
                         quiz_type: quiz_type,
                     });
                 let response_body: Response<question_w_amountand_cat::ResponseData> =
-                    Request::post("/graphql")
+                    Request::post("/api/graphql")
                         .json(&request_body)
                         .unwrap()
                         .send()

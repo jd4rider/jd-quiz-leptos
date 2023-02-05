@@ -12,7 +12,7 @@
     ],
     "routes": [
         {
-            "src": "/",
+            "src": "/(.*)",
             "dest": "/server/index.ts"
         },
         {
@@ -20,13 +20,8 @@
             "dest": "/server/index.ts"
         },
         {
-          "src": "/graphql",
+          "src": "/api/(.*)",
           "dest": "/server/index.ts"
-        },
-
-        {
-            "src": "/(.*)",
-            "dest": "/dist/$1"
         }
     ]
   }
