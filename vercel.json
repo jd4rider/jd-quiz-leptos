@@ -16,17 +16,18 @@
             "dest": "/server/index.ts"
         },
         {
-            "src": "/(.*)",
-            "dest": "/dist/$1"
-        },
-        {
-            "src": "/(.*)",
+            "src": "/quiz",
             "dest": "/server/index.ts"
         },
         {
           "src": "/api/graphql",
           "dest": "/server/index.ts"
+        },        
+        {
+            "src": "/(.*)",
+            "dest": "/dist/$1"
         }
+
     ]
 
 }
