@@ -109,7 +109,9 @@ export const schema = makeExecutableSchema({
     typeDefs,
 });
 
-app.use(express.static('../dist'));
+const publicDirectoryPath = path.join(__dirname, '../dist')
+
+app.use(express.static(publicDirectoryPath));
 
 app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
