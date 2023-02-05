@@ -16,7 +16,7 @@
             "dest": "/server/index.ts"
         },
         {
-          "src": "/api/(.*)",
+          "src": "/api/graphql",
           "dest": "/server/index.ts"
         },
         {
