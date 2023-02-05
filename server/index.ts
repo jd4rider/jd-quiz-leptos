@@ -118,7 +118,7 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
-app.get('/quiz', function(req, res) {
+app.get('/pages/*', function(req, res) {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 

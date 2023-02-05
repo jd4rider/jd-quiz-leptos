@@ -16,7 +16,7 @@
             "dest": "/server/index.ts"
         },
         {
-            "src": "/quiz",
+            "src": "/pages/(.*)",
             "dest": "/server/index.ts"
         },
         {

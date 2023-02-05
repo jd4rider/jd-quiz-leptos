@@ -43,7 +43,7 @@ pub fn Routing(cx: Scope) -> impl IntoView {
                       view=move |cx| view! {cx, <Home home_class=home_class.clone() home_mobile_class=home_mobile_class.clone() quiz_class=quiz_class.clone() quiz_mobile_class=quiz_mobile_class.clone()/> }
                     />
                     <Route
-                      path="quiz"
+                      path="pages/quiz"
                       view=move |cx| view! { cx,  <Front/> }
                     />
                       // users like /gbj or /bob

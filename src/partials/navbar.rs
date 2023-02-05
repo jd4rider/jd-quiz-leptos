@@ -126,7 +126,7 @@ pub fn Navbar(
                         </a>
                         //</A>
 
-                        <a href="/quiz" class={move || quiz_class.get()} on:click=handle_active.clone()>
+                        <a href="/pages/quiz" class={move || quiz_class.get()} on:click=handle_active.clone()>
                             "Quiz"
                         </a>
 
@@ -189,7 +189,7 @@ pub fn Navbar(
                         "Home"
                     </a>
 
-                    <a href="/quiz" class={move || quiz_mobile_class.get()} on:click=handle_active.clone()>
+                    <a href="/pages/quiz" class={move || quiz_mobile_class.get()} on:click=handle_active.clone()>
                         "Quiz"
                     </a>
 
